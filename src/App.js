@@ -1,23 +1,21 @@
 import React from 'react';
+import axios from 'axios';
 
 //class component. state에 관하여
 class App extends React.Component{
   state = {
-    count : 0
+    isLoading : true, //마운트 되자마자 isLoading은 기본적으로 true
+    movies : []
   };
-  
-  add = () => {this.setState({count : this.state.count + 1})};
-  //state를 set할때 react에서 외부의 상태에 의존하지 않는 가장 좋은 방법 아래
-  //리액트는 현재 스테이트를 준다. 위 보다 좋은 소스.
-  minus = () => {this.setState(current => ({count : current.count - 1}))};
-  render(){
 
-  return( 
-    <div>
-      <h1>The number is {this.state.count}</h1>
-      <button onClick={this.add}>Add</button> 
-      <button onClick={this.minus}>Minus</button>
-    </div>)
+  componentDidMount(){//가장 먼저 호출되는 컴포넌트죠? 
+    axios.get("https://yts-proxy.now.sh/list_movies.json");
+  }
+
+  render() {  
+    const {isLoading} = this.state; //ES6 문법. 늘 this를 적기 귀찮으니까
+    return(
+    <div>{isLoading ? "Loading" : "We are ready" }</div>)
   }
 }
 
